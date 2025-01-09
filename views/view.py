@@ -84,9 +84,10 @@ class SubscriptionService:
                 value = 0
                 for result in results:
                     if result.data.month == i[0] and result.data.year == i[1]:
-                        value += float(result.subscription.valor)
+                        if result.subscription is not None:
+                            value += float(result.subscription.valor)
                 value_for_months.append(value)
-            return value_for_months    
+        return value_for_months  
 
     def gen_charts(self):
         last_12_months = self._get_last_12_months_native()
@@ -103,5 +104,3 @@ class SubscriptionService:
         plt.plot(last_12_months2, values_for_months)
         plt.show()    
           
-ss = SubscriptionService(engine)
-print(ss.gen_charts())
